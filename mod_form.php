@@ -1,62 +1,79 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Activity settings form for mod_crossduel.
+ *
+ * @package    mod_crossduel
+ * @copyright  Johan Venter
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
+/**
+ * Activity settings form for Cross Duel.
+ */
 class mod_crossduel_mod_form extends moodleform_mod {
 
+    /**
+     * Defines the form.
+     *
+     * @return void
+     */
     public function definition() {
         $mform = $this->_form;
 
-        /*
-         * -------------------------------------------------------------
-         * General section (Moodle standard)
-         * -------------------------------------------------------------
-         */
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        // Activity name
         $mform->addElement('text', 'name', get_string('name'), ['size' => '64']);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        // Standard intro (description)
         $this->standard_intro_elements();
 
-        /*
-         * -------------------------------------------------------------
-         * Cross Duel settings (YOUR section)
-         * -------------------------------------------------------------
-         */
-        $mform->addElement('header', 'crossduelsettings', 'Cross Duel settings');
+        $mform->addElement('header', 'crossduelsettings', get_string('crossduelsettings', 'crossduel'));
 
-        // Instructions
         $instructions = implode("\n", [
-            'Enter one word and clue per line using the format:',
-            'word|clue',
+            get_string('instructions_line1', 'crossduel'),
+            get_string('instructions_line2', 'crossduel'),
             '',
-            'Examples:',
-            'algorithm|A step-by-step procedure for solving a problem',
-            'variable|A named value that can change',
-            'loop|A repeated sequence of instructions',
+            get_string('instructions_examples', 'crossduel'),
+            get_string('instructions_example1', 'crossduel'),
+            get_string('instructions_example2', 'crossduel'),
+            get_string('instructions_example3', 'crossduel'),
             '',
-            'Rules:',
-            '- Text before | is the answer word',
-            '- Text after | is the clue',
-            '- Use one entry per line',
-            '- Blank lines are ignored',
-            '- Maximum allowed: 50 entries',
-            '- For version 1, simple single words are safest',
+            get_string('instructions_rules', 'crossduel'),
+            get_string('instructions_rule1', 'crossduel'),
+            get_string('instructions_rule2', 'crossduel'),
+            get_string('instructions_rule3', 'crossduel'),
+            get_string('instructions_rule4', 'crossduel'),
+            get_string('instructions_rule5', 'crossduel'),
+            get_string('instructions_rule6', 'crossduel'),
         ]);
 
         $mform->addElement(
             'static',
             'crossduelinstructions',
-            'How to enter words and clues',
-            nl2br(s($instructions))
+            get_string('crossduelinstructions', 'crossduel'),
+            html_writer::div(nl2br(s($instructions)), 'crossduel-form-instructions')
         );
 
-        // Word list
         $mform->addElement(
             'textarea',
             'wordlist',
@@ -65,7 +82,6 @@ class mod_crossduel_mod_form extends moodleform_mod {
         );
         $mform->setType('wordlist', PARAM_RAW);
 
-        // Reveal %
         $mform->addElement(
             'text',
             'revealpercent',
@@ -79,10 +95,9 @@ class mod_crossduel_mod_form extends moodleform_mod {
             'static',
             'revealpercenthelp',
             '',
-            'Enter the percentage of letters to reveal before the game begins.'
+            get_string('revealpercenthelptext', 'crossduel')
         );
 
-        // Pass %
         $mform->addElement(
             'text',
             'passpercentage',
@@ -96,32 +111,24 @@ class mod_crossduel_mod_form extends moodleform_mod {
             'static',
             'passpercentagehelp',
             '',
-            'Percentage required to pass this activity.'
+            get_string('passpercentagehelptext', 'crossduel')
         );
 
-        /*
-         * -------------------------------------------------------------
-         * Standard Moodle grading (IMPORTANT FIX)
-         * -------------------------------------------------------------
-         */
         $this->standard_grading_coursemodule_elements();
-
-        /*
-         * -------------------------------------------------------------
-         * Standard module settings
-         * -------------------------------------------------------------
-         */
         $this->standard_coursemodule_elements();
-
         $this->add_action_buttons();
     }
 
+    /**
+     * Validate submitted form data.
+     *
+     * @param array $data
+     * @param array $files
+     * @return array
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        /*
-         * WORD LIST VALIDATION
-         */
         $rawtext = trim((string)($data['wordlist'] ?? ''));
 
         if ($rawtext === '') {
@@ -132,7 +139,9 @@ class mod_crossduel_mod_form extends moodleform_mod {
 
             foreach ($lines as $line) {
                 $line = trim($line);
-                if ($line === '') continue;
+                if ($line === '') {
+                    continue;
+                }
 
                 if (substr_count($line, '|') !== 1) {
                     $errors['wordlist'] = get_string('invalidwordformat', 'crossduel');
@@ -158,18 +167,12 @@ class mod_crossduel_mod_form extends moodleform_mod {
             }
         }
 
-        /*
-         * REVEAL %
-         */
         if (!is_numeric($data['revealpercent']) || $data['revealpercent'] < 5 || $data['revealpercent'] > 50) {
-            $errors['revealpercent'] = 'Must be between 5 and 50.';
+            $errors['revealpercent'] = get_string('revealpercentvalidation', 'crossduel');
         }
 
-        /*
-         * PASS %
-         */
         if (!is_numeric($data['passpercentage']) || $data['passpercentage'] < 0 || $data['passpercentage'] > 100) {
-            $errors['passpercentage'] = 'Must be between 0 and 100.';
+            $errors['passpercentage'] = get_string('passpercentagevalidation', 'crossduel');
         }
 
         return $errors;

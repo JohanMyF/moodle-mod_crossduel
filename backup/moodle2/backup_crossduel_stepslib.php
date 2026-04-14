@@ -15,17 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Backup structure step for mod_crossduel.
- *
- * This backs up only the authored puzzle definition:
- * - main activity settings
- * - parsed words
- * - approved layout slots
- *
- * Runtime/user data is intentionally excluded from version 1.
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
- * @copyright  Your name
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

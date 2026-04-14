@@ -15,6 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * [Short description of what this file does]
+ *
+ * @package    mod_crossduel
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+
+/**
  * Backup task for mod_crossduel.
  *
  * This version intentionally backs up only the authored activity structure:

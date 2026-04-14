@@ -15,17 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Restore structure step for mod_crossduel.
- *
- * This restores:
- * - crossduel
- * - crossduel_word
- * - crossduel_layoutslot
- *
- * Runtime/user/session tables are intentionally excluded.
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
- * @copyright  Your name
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

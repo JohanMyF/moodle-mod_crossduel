@@ -1,23 +1,28 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
-// Teacher preview page for the Cross Duel activity module.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Preview page for mod_crossduel.
- *
- * This version:
- * - parses the stored word list
- * - generates an in-memory draft layout
- * - shows placed and skipped words
- * - renders a visible draft grid
- * - allows the teacher to approve the draft
- * - saves approved placed words into crossduel_layoutslot
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
- * @copyright  Your name
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 
 require('../../config.php');
 require_once(__DIR__ . '/lib.php');
@@ -36,7 +41,7 @@ require_capability('mod/crossduel:addinstance', $context);
 
 $PAGE->set_url('/mod/crossduel/preview.php', ['id' => $cm->id]);
 $PAGE->set_context($context);
-$PAGE->set_title('Preview: ' . format_string($crossduel->name));
+$PAGE->set_title(get_string('previewtitle', 'crossduel', format_string($crossduel->name)));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_pagelayout('incourse');
 
@@ -190,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && optional_param('approvelayout', '',
     require_sesskey();
 
     if (empty($layoutresult['placed'])) {
-        $approvalmessage = 'There is no draft layout to approve.';
+        $approvalmessage = get_string('nodraft', 'crossduel');
     } else {
         try {
             crossduel_preview_save_approved_layout($crossduel, $layoutresult);
@@ -199,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && optional_param('approvelayout', '',
             $crossduel = $DB->get_record('crossduel', ['id' => $crossduel->id], '*', MUST_EXIST);
 
             $approvalsuccess = true;
-            $approvalmessage = 'Draft layout approved and saved successfully.';
+            $approvalmessage = get_string('draftapproved', 'crossduel');
         } catch (Exception $e) {
             $approvalmessage = $e->getMessage();
         }
@@ -211,69 +216,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && optional_param('approvelayout', '',
  * Simple preview styles
  * -------------------------------------------------------------
  */
-$styles = '
-.crossduel-preview-grid {
-    border-collapse: collapse;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-.crossduel-preview-grid td {
-    width: 36px;
-    height: 36px;
-    border: 1px solid #cbd5e1;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 0;
-}
-.crossduel-preview-grid td.crossduel-filled {
-    background: #ffffff;
-    color: #111827;
-}
-.crossduel-preview-grid td.crossduel-empty {
-    background: #1f2937;
-    border-color: #1f2937;
-}
-.crossduel-preview-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #ffffff;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-.crossduel-preview-note {
-    color: #475467;
-}
-.crossduel-direction-pill {
-    display: inline-block;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-.crossduel-skipped-pill {
-    display: inline-block;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-    background: #fff7ed;
-    border: 1px solid #fdba74;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-.crossduel-action-row {
-    margin-top: 1rem;
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-}
-';
+$PAGE->requires->css('/mod/crossduel/styles.css');
 
 echo $OUTPUT->header();
 echo html_writer::tag('style', $styles);
-echo $OUTPUT->heading('Cross Duel preview');
+echo $OUTPUT->heading(get_string('previewheading', 'crossduel'));
 
 if ($approvalmessage !== '') {
     if ($approvalsuccess) {
@@ -289,8 +236,8 @@ if ($approvalmessage !== '') {
  * -------------------------------------------------------------
  */
 echo $OUTPUT->box(
-    html_writer::tag('p', 'This page generates a cautious version-1 draft layout from the stored word list.') .
-    html_writer::tag('p', 'The generator prioritises reliability and clean intersections over perfect density.'),
+    html_writer::tag('p', get_string('previewintro1', 'crossduel')) .
+    html_writer::tag('p', get_string('previewintro2', 'crossduel')),
     'generalbox'
 );
 
@@ -300,16 +247,23 @@ echo $OUTPUT->box(
  * -------------------------------------------------------------
  */
 $summaryitems = [];
-$summaryitems[] = html_writer::tag('li', 'Activity: ' . s($crossduel->name));
-$summaryitems[] = html_writer::tag('li', 'Stored entries found: ' . count($entries));
-$summaryitems[] = html_writer::tag('li', 'Placed in draft: ' . count($layoutresult['placed']));
-$summaryitems[] = html_writer::tag('li', 'Skipped in draft: ' . count($layoutresult['skipped']));
-$summaryitems[] = html_writer::tag('li', 'Reveal percentage: ' . s($crossduel->revealpercent));
-$summaryitems[] = html_writer::tag('li', 'Pass percentage: ' . s($crossduel->passpercentage));
-$summaryitems[] = html_writer::tag('li', 'Layout approved: ' . ($crossduel->layoutapproved ? 'Yes' : 'No'));
+$summaryitems[] = html_writer::tag('li', get_string('activityname_label', 'crossduel', s($crossduel->name)));
+$summaryitems[] = html_writer::tag('li', get_string('entriesfound', 'crossduel', count($entries)));
+$summaryitems[] = html_writer::tag('li', get_string('placedcount', 'crossduel', count($layoutresult['placed'])));
+$summaryitems[] = html_writer::tag('li', get_string('skippedcount', 'crossduel', count($layoutresult['skipped'])));
+$summaryitems[] = html_writer::tag('li', get_string('revealpercent_label', 'crossduel', s($crossduel->revealpercent)));
+$summaryitems[] = html_writer::tag('li', get_string('passpercent_label', 'crossduel', s($crossduel->passpercentage)));
+$summaryitems[] = html_writer::tag(
+    'li',
+    get_string(
+        'layoutapproved_label',
+        'crossduel',
+        $crossduel->layoutapproved ? get_string('yes', 'crossduel') : get_string('no', 'crossduel')
+    )
+);
 
 echo $OUTPUT->box(
-    html_writer::tag('h3', 'Activity summary') .
+    html_writer::tag('h3', get_string('activitysummary', 'crossduel')) .
     html_writer::tag('ul', implode('', $summaryitems)),
     'generalbox'
 );
@@ -331,10 +285,10 @@ if (!empty($layoutresult['warnings'])) {
  * -------------------------------------------------------------
  */
 echo html_writer::start_div('crossduel-preview-card');
-echo $OUTPUT->heading('Placed words in draft layout', 3);
+echo $OUTPUT->heading(get_string('placedwords', 'crossduel'), 3);
 
 if (empty($layoutresult['placed'])) {
-    echo html_writer::tag('p', 'No words could be placed in the current draft.', ['class' => 'crossduel-preview-note']);
+    echo html_writer::tag('p', get_string('noplaced', 'crossduel'), ['class' => 'crossduel-preview-note']);
 } else {
     $table = new html_table();
     $table->head = [
@@ -352,7 +306,9 @@ if (empty($layoutresult['placed'])) {
     $table->data = [];
 
     foreach ($layoutresult['placed'] as $placed) {
-        $directionlabel = ($placed['direction'] === 'H') ? 'Horizontal' : 'Vertical';
+        $directionlabel = ($placed['direction'] === 'H')
+            ? get_string('direction_horizontal', 'crossduel')
+            : get_string('direction_vertical', 'crossduel');
 
         $table->data[] = [
             $placed['line'],
@@ -376,10 +332,10 @@ echo html_writer::end_div();
  * -------------------------------------------------------------
  */
 echo html_writer::start_div('crossduel-preview-card');
-echo $OUTPUT->heading('Skipped words', 3);
+echo $OUTPUT->heading(get_string('skippedwords', 'crossduel'), 3);
 
 if (empty($layoutresult['skipped'])) {
-    echo html_writer::tag('p', 'No words were skipped in this draft.', ['class' => 'crossduel-preview-note']);
+    echo html_writer::tag('p', get_string('noskipped', 'crossduel'), ['class' => 'crossduel-preview-note']);
 } else {
     $table = new html_table();
     $table->head = [
@@ -401,7 +357,7 @@ if (empty($layoutresult['skipped'])) {
             s($skipped['normalized']),
             $skipped['length'],
             s($skipped['clue']),
-            html_writer::tag('span', 'Skipped', ['class' => 'crossduel-skipped-pill']),
+            html_writer::tag('span', get_string('skipped', 'crossduel'), ['class' => 'crossduel-skipped-pill']),
         ];
     }
 
@@ -415,16 +371,12 @@ echo html_writer::end_div();
  * -------------------------------------------------------------
  */
 echo html_writer::start_div('crossduel-preview-card');
-echo $OUTPUT->heading('Draft grid preview', 3);
+echo $OUTPUT->heading(get_string('draftgrid', 'crossduel'), 3);
 
 if (empty($matrix['rows'])) {
-    echo html_writer::tag('p', 'No grid could be rendered from the current draft.', ['class' => 'crossduel-preview-note']);
+    echo html_writer::tag('p', get_string('nogrid', 'crossduel'), ['class' => 'crossduel-preview-note']);
 } else {
-    echo html_writer::tag(
-        'p',
-        'Filled cells represent letters placed by the generator. Dark cells are unused spaces inside the current rectangular preview window.',
-        ['class' => 'crossduel-preview-note']
-    );
+    echo html_writer::tag('p', get_string('gridnote', 'crossduel'), ['class' => 'crossduel-preview-note']);
 
     echo html_writer::start_tag('table', ['class' => 'crossduel-preview-grid']);
 
@@ -455,16 +407,13 @@ $viewurl = new moodle_url('/mod/crossduel/view.php', ['id' => $cm->id]);
 $editurl = new moodle_url('/course/modedit.php', ['update' => $cm->id, 'return' => 1]);
 
 echo $OUTPUT->box_start('generalbox');
-echo html_writer::tag('h3', 'Next step');
-echo html_writer::tag(
-    'p',
-    'You can now approve this preview-only draft and save the placed words into the layout table.'
-);
+echo html_writer::tag('h3', get_string('nextstep', 'crossduel'));
+echo html_writer::tag('p', get_string('nextstepdesc', 'crossduel'));
 
 echo html_writer::start_div('crossduel-action-row');
 
-echo html_writer::link($editurl, 'Edit settings', ['class' => 'btn btn-secondary']);
-echo html_writer::link($viewurl, 'Back to activity', ['class' => 'btn btn-secondary']);
+echo html_writer::link($editurl, get_string('editsettings', 'crossduel'), ['class' => 'btn btn-secondary']);
+echo html_writer::link($viewurl, get_string('backtoactivity', 'crossduel'), ['class' => 'btn btn-secondary']);
 
 if (!empty($layoutresult['placed'])) {
     echo html_writer::start_tag('form', [
@@ -482,7 +431,7 @@ if (!empty($layoutresult['placed'])) {
     echo html_writer::empty_tag('input', [
         'type' => 'submit',
         'name' => 'approvelayout',
-        'value' => 'Approve this draft layout',
+        'value' => get_string('approve_layout', 'crossduel'),
         'class' => 'btn btn-primary',
     ]);
 

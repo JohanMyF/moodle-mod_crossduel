@@ -1,23 +1,25 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
-// Moodle uses version.php to identify a plugin, check compatibility,
-// and decide whether an install or upgrade is required.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for the Cross Duel activity module.
- *
- * This plugin is a custom Moodle activity module.
- * Its full component name must match the folder location:
- *
- *   /mod/crossduel
- *
- * Therefore the component name below must be:
- *
- *   mod_crossduel
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
- * @copyright  Your name
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

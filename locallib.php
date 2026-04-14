@@ -1,31 +1,25 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
-// Local helper functions for the Cross Duel activity module.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local helper functions for mod_crossduel.
- *
- * This file contains the first draft-layout generator for Cross Duel.
- *
- * IMPORTANT DESIGN CHOICE:
- * This is intentionally a version-1 generator:
- * - simple
- * - deterministic
- * - easy to debug
- * - not optimized for perfect crossword density
- *
- * The generator works like this:
- * 1. Sort words by descending length.
- * 2. Place the first word horizontally near the middle.
- * 3. For each later word, try to intersect it with already placed words.
- * 4. If no safe placement is found, skip the word.
- *
- * This gives us a reliable first draft preview without pretending to be a
- * full newspaper-style crossword engine.
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
- * @copyright  Your name
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

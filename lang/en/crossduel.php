@@ -1,14 +1,28 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
-// Language strings for the Cross Duel activity module.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language strings for mod_crossduel.
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -226,3 +240,84 @@ $string['mp_no_further_answers'] = 'No further answers are needed. This shared p
 $string['mp_refresh_confirm'] = 'You may refresh to confirm the final shared board and grade state, but the activity will remain in multiplayer completion view rather than dropping back to solo mode.';
 
 $string['answerlengthstatus'] = 'Answer length: {$a->length} | Status: {$a->status}';
+
+// -------------------------------------------------------------
+// Preview page
+// -------------------------------------------------------------
+
+$string['previewtitle'] = 'Preview: {$a}';
+$string['previewheading'] = 'Cross Duel preview';
+
+// Approval messages
+$string['nodraft'] = 'There is no draft layout to approve.';
+$string['draftapproved'] = 'Draft layout approved and saved successfully.';
+
+// Intro text
+$string['previewintro1'] = 'This page generates a cautious version-1 draft layout from the stored word list.';
+$string['previewintro2'] = 'The generator prioritises reliability and clean intersections over perfect density.';
+
+// Activity summary
+$string['activitysummary'] = 'Activity summary';
+$string['activityname_label'] = 'Activity: {$a}';
+$string['entriesfound'] = 'Stored entries found: {$a}';
+$string['placedcount'] = 'Placed in draft: {$a}';
+$string['skippedcount'] = 'Skipped in draft: {$a}';
+$string['revealpercent_label'] = 'Reveal percentage: {$a}';
+$string['passpercent_label'] = 'Pass percentage: {$a}';
+$string['layoutapproved_label'] = 'Layout approved: {$a}';
+$string['yes'] = 'Yes';
+$string['no'] = 'No';
+
+// Placed words
+$string['placedwords'] = 'Placed words in draft layout';
+$string['noplaced'] = 'No words could be placed in the current draft.';
+
+// Skipped words
+$string['skippedwords'] = 'Skipped words';
+$string['noskipped'] = 'No words were skipped in this draft.';
+$string['skipped'] = 'Skipped';
+
+// Grid
+$string['draftgrid'] = 'Draft grid preview';
+$string['nogrid'] = 'No grid could be rendered from the current draft.';
+$string['gridnote'] = 'Filled cells represent letters placed by the generator. Dark cells are unused spaces inside the current rectangular preview window.';
+
+// Action section
+$string['nextstep'] = 'Next step';
+$string['nextstepdesc'] = 'You can now approve this preview-only draft and save the placed words into the layout table.';
+$string['editsettings'] = 'Edit settings';
+$string['backtoactivity'] = 'Back to activity';
+$string['approve_layout'] = 'Approve this draft layout';
+
+// Direction labels
+$string['direction_horizontal'] = 'Horizontal';
+$string['direction_vertical'] = 'Vertical';
+
+// -------------------------------------------------------------
+// mod_form.php
+// -------------------------------------------------------------
+
+$string['crossduelsettings'] = 'Cross Duel settings';
+$string['crossduelinstructions'] = 'How to enter words and clues';
+
+$string['instructions_line1'] = 'Enter one word and clue per line using the format:';
+$string['instructions_line2'] = 'word|clue';
+
+$string['instructions_examples'] = 'Examples:';
+$string['instructions_example1'] = 'algorithm|A step-by-step procedure for solving a problem';
+$string['instructions_example2'] = 'variable|A named value that can change';
+$string['instructions_example3'] = 'loop|A repeated sequence of instructions';
+
+$string['instructions_rules'] = 'Rules:';
+$string['instructions_rule1'] = '- Text before | is the answer word';
+$string['instructions_rule2'] = '- Text after | is the clue';
+$string['instructions_rule3'] = '- Use one entry per line';
+$string['instructions_rule4'] = '- Blank lines are ignored';
+$string['instructions_rule5'] = '- Maximum allowed: 50 entries';
+$string['instructions_rule6'] = '- For version 1, simple single words are safest';
+
+$string['revealpercenthelptext'] = 'Enter the percentage of letters to reveal before the game begins.';
+$string['passpercentagehelptext'] = 'Percentage required to pass this activity.';
+
+$string['revealpercentvalidation'] = 'Must be between 5 and 50.';
+$string['passpercentagevalidation'] = 'Must be between 0 and 100.';

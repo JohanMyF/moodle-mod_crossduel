@@ -1,29 +1,28 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
-// Core library functions for the Cross Duel activity module.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Core library functions for mod_crossduel.
- *
- * This version includes:
- * - parsing and storage of teacher-authored word rows
- * - gradebook item creation
- * - single-player grade calculation from solved words
- *
- * IMPORTANT DESIGN CHOICE:
- * Grade is currently based on:
- *   solved approved words / total approved words
- *
- * This is appropriate for the current single-player mode.
- *
- * Later, when two-player mode is introduced, we can adapt the grade logic
- * so that both collaborating players receive equivalent completion credit
- * for a fully solved puzzle.
+ * [Short description of what this file does]
  *
  * @package    mod_crossduel
+ * @author     Johan Venter <johan@myfutureway.co.za>
+ * @copyright  2026 Johan Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 
 defined('MOODLE_INTERNAL') || die();
 
