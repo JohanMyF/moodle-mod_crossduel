@@ -216,10 +216,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && optional_param('approvelayout', '',
  * Simple preview styles
  * -------------------------------------------------------------
  */
-$PAGE->requires->css('/mod/crossduel/styles.css');
 
 echo $OUTPUT->header();
-echo html_writer::tag('style', $styles);
+
 echo $OUTPUT->heading(get_string('previewheading', 'crossduel'));
 
 if ($approvalmessage !== '') {

@@ -100,3 +100,185 @@
     white-space: normal;
     line-height: 1.5;
 }
+
+/* -----------------------------------------------------------------
+Styles for mod-form page
+------------------------------------------------------------------*/
+.crossduel-shell {
+    max-width: 1180px;
+}
+.crossduel-status-card,
+.crossduel-board-card,
+.crossduel-clues-card,
+.crossduel-answer-card,
+.crossduel-complete-card,
+.crossduel-multiplayer-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.crossduel-complete-card {
+    background: linear-gradient(180deg, #ecfdf3 0%, #dcfce7 100%);
+    border-color: #86efac;
+}
+.crossduel-complete-card h3,
+.crossduel-multiplayer-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.crossduel-hero {
+    border: 1px solid #d9e2f2;
+    background: linear-gradient(180deg, #f7faff 0%, #eef4ff 100%);
+    border-radius: 14px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+.crossduel-hero h2 {
+    margin: 0 0 0.35rem 0;
+    font-size: 2rem;
+}
+.crossduel-subtitle {
+    font-size: 1.05rem;
+    color: #344054;
+    margin-bottom: 0;
+}
+.crossduel-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+.crossduel-grid {
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+.crossduel-grid td {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #cbd5e1;
+    padding: 0;
+}
+.crossduel-grid td.crossduel-revealed {
+    background: #eef6ff;
+    color: #111827;
+}
+.crossduel-grid td.crossduel-hidden {
+    background: #ffffff;
+    color: #111827;
+}
+.crossduel-grid td.crossduel-empty {
+    background: #1f2937;
+    border-color: #1f2937;
+}
+.crossduel-cell-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.crossduel-cell-number {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    font-size: 0.58rem;
+    line-height: 1;
+    color: #475467;
+    font-weight: 700;
+}
+.crossduel-cell-letter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+}
+.crossduel-cell-hidden-blank {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+.crossduel-note {
+    color: #475467;
+}
+.crossduel-clue-section {
+    margin-bottom: 1.25rem;
+}
+.crossduel-clue-section h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+.crossduel-clue-list,
+.crossduel-partner-list,
+.crossduel-invite-list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+.crossduel-clue-list li,
+.crossduel-partner-list li,
+.crossduel-invite-list li {
+    margin-bottom: 0.75rem;
+}
+.crossduel-cluenumber {
+    font-weight: 700;
+}
+.crossduel-meta {
+    color: #667085;
+    font-size: 0.92rem;
+}
+.crossduel-action-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 0.9rem;
+}
+.crossduel-answer-form label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.35rem;
+}
+.crossduel-answer-form select,
+.crossduel-answer-form input[type=text] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 2.8rem;
+    margin-bottom: 0.9rem;
+}
+.crossduel-progress-note {
+    font-size: 0.95rem;
+    color: #475467;
+}
+.crossduel-tick {
+    color: #15803d;
+    font-weight: 700;
+    margin-right: 0.35rem;
+}
+.crossduel-partner-row,
+.crossduel-invite-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+    align-items: center;
+    border-bottom: 1px solid #f0f2f5;
+    padding: 0.7rem 0;
+}
+.crossduel-partner-row:last-child,
+.crossduel-invite-row:last-child {
+    border-bottom: none;
+}
+.crossduel-small-note {
+    color: #667085;
+    font-size: 0.92rem;
+}
+@media (max-width: 900px) {
+    .crossduel-layout,
+    .crossduel-partner-row,
+    .crossduel-invite-row {
+        grid-template-columns: 1fr;
+    }
+}
