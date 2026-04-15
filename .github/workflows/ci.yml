@@ -1,1 +1,33 @@
+name: Moodle plugin CI
 
+on:
+  push:
+  pull_request:
+
+jobs:
+  moodle-plugin-ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        moodle-branch: ['MOODLE_500_STABLE']
+        php-version: ['8.2']
+
+    steps:
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: curl, dom, gd, intl, json, mbstring, mysqli, soap, xml, xmlrpc, zip
+          coverage: none
+
+      - name: Moodle plugin CI
+        uses: moodlehq/moodle-plugin-ci@main
+        with:
+          plugin-path: mod/crossduel
+          moodle-branch: ${{ matrix.moodle-branch }}
+          php-version: ${{ matrix.php-version }}
+          extra-plugins: ''
