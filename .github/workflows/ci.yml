@@ -32,7 +32,7 @@ jobs:
         run: >
           ./ci/bin/moodle-plugin-ci install
           --moodle=${{ matrix.moodle-branch }}
-          --plugin=$GITHUB_WORKSPACE
+          --plugin=${{ github.workspace }}
       - name: Run code checker
         run: |
           ./ci/bin/moodle-plugin-ci phpcs
