@@ -1,0 +1,46 @@
+define(['jquery'], function($) {
+
+    return {
+        init: function() {
+
+            function setupCollapsiblePanels() {
+
+                $('.crossduel-collapsible-panel').each(function() {
+
+                    const panel = $(this);
+                    const body = panel.find('.crossduel-collapsible-body');
+                    const toggle = panel.find('.crossduel-toggle-link');
+
+                    if (panel.data('initialized')) {
+                        return;
+                    }
+
+                    panel.data('initialized', true);
+
+                    setTimeout(function() {
+                        body.slideUp(500);
+                        panel.addClass('crossduel-collapsed');
+                    }, 500);
+
+                    toggle.on('click', function(e) {
+                        e.preventDefault();
+
+                        if (body.is(':visible')) {
+                            body.slideUp(300);
+                            panel.addClass('crossduel-collapsed');
+                            toggle.text('Show details ▼');
+                        } else {
+                            body.slideDown(300);
+                            panel.removeClass('crossduel-collapsed');
+                            toggle.text('Hide details ▲');
+                        }
+                    });
+                });
+            }
+
+            $(document).ready(function() {
+                setupCollapsiblePanels();
+            });
+        }
+    };
+});

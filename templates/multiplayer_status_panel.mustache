@@ -1,0 +1,136 @@
+{{!
+    @template mod_crossduel/multiplayer_status_panel
+
+    Multiplayer invitation and status panel.
+
+    Context variables:
+    * title
+    * hasgame
+    * hasinvitedsent
+    * hasinvitedreceived
+    * hasactive
+    * hascompleted
+    * hasnogame
+    * opponentname
+    * rolelabel
+    * turnname
+    * incominginvites
+    * availablepartners
+    * sesskey
+    * actionurl
+}}
+
+<div class="crossduel-multiplayer-card crossduel-collapsible-panel">
+    <div class="crossduel-panel-heading-row">
+        <h3>{{title}}</h3>
+        {{#hascollapsiblecontent}}
+            <a href="#" class="crossduel-toggle-link">Hide details ▲</a>
+        {{/hascollapsiblecontent}}
+    </div>
+
+    <div class="crossduel-collapsible-body">
+        {{#hasinvitedsent}}
+            <p>{{invitationtext}}</p>
+            <p class="crossduel-small-note">{{waitingtext}}</p>
+            <p class="crossduel-small-note">{{singleplayertext}}</p>
+        {{/hasinvitedsent}}
+
+        {{#hasinvitedreceived}}
+            <p>{{invitedtext}}</p>
+            <p class="crossduel-small-note">{{acceptnotice}}</p>
+
+            <div class="crossduel-action-row">
+                <form method="post" action="{{actionurl}}" style="display:inline;">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="gameid" value="{{gameid}}">
+                    <input type="submit" name="acceptinvite" value="{{acceptlabel}}" class="btn btn-primary">
+                </form>
+
+                <form method="post" action="{{actionurl}}" style="display:inline;">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="gameid" value="{{gameid}}">
+                    <input type="submit" name="declineinvite" value="{{declinelabel}}" class="btn btn-secondary">
+                </form>
+            </div>
+
+            <p class="crossduel-small-note">{{singleplayeruntilaccept}}</p>
+        {{/hasinvitedreceived}}
+
+        {{#hasactive}}
+            <p>{{activetext}}</p>
+            <ul>
+                <li>{{opponenttext}}</li>
+                <li>{{roletext}}</li>
+                <li>{{turntext}}</li>
+            </ul>
+            <p class="crossduel-small-note">{{lockedtext}}</p>
+            <p class="crossduel-small-note">{{refreshtext}}</p>
+        {{/hasactive}}
+
+        {{#hascompleted}}
+            <p>{{completedtitle}}</p>
+            <ul>
+                <li>{{opponenttext}}</li>
+                <li>{{roletext}}</li>
+                <li>{{finalstatustext}}</li>
+            </ul>
+            <p class="crossduel-small-note">{{completedcredit}}</p>
+            <p class="crossduel-small-note">{{completedboard}}</p>
+        {{/hascompleted}}
+
+        {{#hasnogame}}
+            {{#hasincominginvites}}
+                <p>{{inviteswaiting}}</p>
+                <ul class="crossduel-invite-list">
+                    {{#incominginvites}}
+                        <li class="crossduel-invite-row">
+                            <div>
+                                <div>{{prompt}}</div>
+                                <div class="crossduel-small-note">{{starttext}}</div>
+                            </div>
+
+                            <div class="crossduel-action-row">
+                                <form method="post" action="{{actionurl}}" style="display:inline;">
+                                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                                    <input type="hidden" name="gameid" value="{{gameid}}">
+                                    <input type="submit" name="acceptinvite" value="{{acceptlabel}}" class="btn btn-primary">
+                                </form>
+
+                                <form method="post" action="{{actionurl}}" style="display:inline;">
+                                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                                    <input type="hidden" name="gameid" value="{{gameid}}">
+                                    <input type="submit" name="declineinvite" value="{{declinelabel}}" class="btn btn-secondary">
+                                </form>
+                            </div>
+                        </li>
+                    {{/incominginvites}}
+                </ul>
+            {{/hasincominginvites}}
+
+            <p>{{availabletext}}</p>
+
+            {{#nopartners}}
+                <p class="crossduel-small-note">{{nolearnerstext}}</p>
+            {{/nopartners}}
+
+            {{#haspartners}}
+                <ul class="crossduel-partner-list">
+                    {{#availablepartners}}
+                        <li class="crossduel-partner-row">
+                            <div>
+                                <div>{{fullname}}</div>
+                                <div class="crossduel-small-note">{{lastactive}}</div>
+                            </div>
+
+                            <form method="post" action="{{actionurl}}">
+                                <input type="hidden" name="sesskey" value="{{sesskey}}">
+                                <input type="hidden" name="inviteuserid" value="{{userid}}">
+                                <input type="submit" name="inviteplayer" value="{{invitelabel}}" class="btn btn-secondary">
+                            </form>
+                        </li>
+                    {{/availablepartners}}
+                </ul>
+            {{/haspartners}}
+        {{/hasnogame}}
+    </div>
+</div>

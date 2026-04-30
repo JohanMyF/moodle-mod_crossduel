@@ -1,0 +1,55 @@
+{{!
+    @template mod_crossduel/clues_panel
+
+    Cross Duel clues panel rendering template.
+
+    Context variables:
+    * across
+    * down
+}}
+
+<div class="crossduel-clues-card">
+    <h3>{{#str}} clues, crossduel {{/str}}</h3>
+
+    <div class="crossduel-clue-section">
+        <h3>{{#str}} across, crossduel {{/str}}</h3>
+
+        {{#hasacross}}
+            <ul class="crossduel-clue-list">
+                {{#across}}
+                    <li>
+                        {{{tickhtml}}}
+                        <span class="crossduel-cluenumber">{{cluenumber}}. </span>
+                        {{clue}}
+                        <div class="crossduel-meta">{{meta}}</div>
+                    </li>
+                {{/across}}
+            </ul>
+        {{/hasacross}}
+
+        {{^hasacross}}
+            <p class="crossduel-note">{{#str}} no_across, crossduel {{/str}}</p>
+        {{/hasacross}}
+    </div>
+
+    <div class="crossduel-clue-section">
+        <h3>{{#str}} down, crossduel {{/str}}</h3>
+
+        {{#hasdown}}
+            <ul class="crossduel-clue-list">
+                {{#down}}
+                    <li>
+                        {{{tickhtml}}}
+                        <span class="crossduel-cluenumber">{{cluenumber}}. </span>
+                        {{clue}}
+                        <div class="crossduel-meta">{{meta}}</div>
+                    </li>
+                {{/down}}
+            </ul>
+        {{/hasdown}}
+
+        {{^hasdown}}
+            <p class="crossduel-note">{{#str}} no_down, crossduel {{/str}}</p>
+        {{/hasdown}}
+    </div>
+</div>

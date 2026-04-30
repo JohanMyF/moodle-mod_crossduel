@@ -387,9 +387,11 @@ class provider implements
         }
 
         $contexttocrossduel = self::get_crossduelids_from_contexts($contexts);
-        foreach ($contexttocrossduel as $crossduelid) {
-            self::delete_user_data_in_activity((int)$crossduelid, (int)$userid);
+        if (empty($contexttocrossduel)) {
+            return;
         }
+
+        self::delete_user_data_in_activities(array_values($contexttocrossduel), (int)$userid);
     }
 
     /**
@@ -536,6 +538,92 @@ class provider implements
             'crossduel_presence',
             "crossduelid = :crossduelid AND userid $uinsql",
             ['crossduelid' => $crossduelid] + $uparams
+        );
+    }
+
+    /**
+     * Delete one user's data across multiple Cross Duel activities.
+     *
+     * Shared game rows are anonymised rather than deleted.
+     *
+     * @param array $crossduelids
+     * @param int $userid
+     * @return void
+     */
+    protected static function delete_user_data_in_activities(array $crossduelids, int $userid): void {
+        global $DB;
+
+        $crossduelids = array_values(array_unique(array_map('intval', $crossduelids)));
+        if (empty($crossduelids)) {
+            return;
+        }
+
+        list($cinsql, $cparams) = $DB->get_in_or_equal($crossduelids, SQL_PARAMS_NAMED);
+
+        $attempts = $DB->get_records_select(
+            'crossduel_attempt',
+            "crossduelid $cinsql AND userid = :userid",
+            $cparams + ['userid' => $userid]
+        );
+
+        if ($attempts) {
+            $attemptids = array_keys($attempts);
+            list($ainsql, $aparams) = $DB->get_in_or_equal($attemptids, SQL_PARAMS_NAMED);
+
+            $DB->delete_records_select('crossduel_attempt_word', "attemptid $ainsql", $aparams);
+        }
+
+        $DB->delete_records_select(
+            'crossduel_attempt',
+            "crossduelid $cinsql AND userid = :userid",
+            $cparams + ['userid' => $userid]
+        );
+
+        $games = $DB->get_records_select(
+            'crossduel_game',
+            "crossduelid $cinsql AND (playera = :userid1 OR playerb = :userid2)",
+            $cparams + ['userid1' => $userid, 'userid2' => $userid]
+        );
+
+        if ($games) {
+            $gameids = array_keys($games);
+            list($ginsql, $gparams) = $DB->get_in_or_equal($gameids, SQL_PARAMS_NAMED);
+
+            $DB->delete_records_select(
+                'crossduel_move',
+                "gameid $ginsql AND userid = :userid",
+                $gparams + ['userid' => $userid]
+            );
+
+            foreach ($games as $game) {
+                if ((int)$game->playera === $userid) {
+                    $game->playera = 0;
+                }
+                if ((int)$game->playerb === $userid) {
+                    $game->playerb = 0;
+                }
+                if ((int)$game->horizontalplayer === $userid) {
+                    $game->horizontalplayer = 0;
+                }
+                if ((int)$game->verticalplayer === $userid) {
+                    $game->verticalplayer = 0;
+                }
+                if ((int)$game->currentturn === $userid) {
+                    $game->currentturn = 0;
+                }
+                if ((int)$game->lastplayer === $userid) {
+                    $game->lastplayer = 0;
+                }
+
+                $game->timemodified = time();
+                $DB->update_record('crossduel_game', $game);
+            }
+        }
+
+        $DB->delete_records_select(
+            'crossduel_presence',
+            "crossduelid $cinsql AND userid = :userid",
+            $cparams + ['userid' => $userid]
         );
     }
 

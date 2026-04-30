@@ -321,3 +321,13 @@ $string['passpercentagehelptext'] = 'Percentage required to pass this activity.'
 
 $string['revealpercentvalidation'] = 'Must be between 5 and 50.';
 $string['passpercentagevalidation'] = 'Must be between 0 and 100.';
+
+$string['role_not_assigned'] = 'Not yet assigned';
+$string['mp_lastmove_invitation_sent'] = 'Invitation sent';
+$string['mp_lastmove_invitation_accepted'] = 'Invitation accepted';
+$string['mp_lastmove_invitation_declined'] = 'Invitation declined';
+$string['mp_move_correct'] = 'Correct multiplayer answer';
+$string['mp_move_incorrect'] = 'Incorrect multiplayer answer';
+$string['mp_lastmove_correct_submitted'] = 'Correct multiplayer answer submitted';
+$string['mp_lastmove_incorrect_submitted'] = 'Incorrect multiplayer answer submitted';
+$string['mp_lastmove_completed'] = 'Multiplayer puzzle completed';

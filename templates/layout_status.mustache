@@ -1,0 +1,25 @@
+{{!
+    @template mod_crossduel/layout_status
+
+    Layout readiness panel.
+}}
+
+{{#layoutnotapproved}}
+<div class="crossduel-status-card">
+    <p>{{layoutnotready}}</p>
+
+    {{#showpreview}}
+    <div class="crossduel-action-row">
+        <a href="{{previewurl}}" class="btn btn-secondary">
+            {{#str}} openpreview, crossduel {{/str}}
+        </a>
+    </div>
+    {{/showpreview}}
+</div>
+{{/layoutnotapproved}}
+
+{{#layoutmissingrows}}
+<div class="crossduel-status-card">
+    <p>{{layoutreapprove}}</p>
+</div>
+{{/layoutmissingrows}}

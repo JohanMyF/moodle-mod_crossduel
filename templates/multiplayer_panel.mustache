@@ -1,0 +1,104 @@
+{{!
+    @template mod_crossduel/multiplayer_panel
+
+    Multiplayer answer panel rendering template.
+
+    Context variables:
+    * hasactivepanel
+    * hascompletedpanel
+    * rolelabel
+    * turnmessage
+    * multiplayerallsolved
+    * hasnooptions
+    * isnotmyturn
+    * showform
+    * sesskey
+    * actionurl
+    * clueselectoptions
+}}
+
+{{#hasactivepanel}}
+<div class="crossduel-answer-card">
+    <h3>{{#str}} multiplayerpanel, crossduel {{/str}}</h3>
+
+    <p>{{#str}} yourmultiplayerrole, crossduel, {{rolelabel}} {{/str}}</p>
+
+    <p class="crossduel-progress-note">
+        {{turnmessage}}
+    </p>
+
+    {{#multiplayerallsolved}}
+        <p class="crossduel-small-note">
+            {{#str}} mp_all_solved, crossduel {{/str}}
+        </p>
+    {{/multiplayerallsolved}}
+
+    {{#hasnooptions}}
+        <p class="crossduel-small-note">
+            {{#str}} mp_none_in_direction, crossduel {{/str}}
+        </p>
+        <p class="crossduel-small-note">
+            {{#str}} mp_remaining_other, crossduel {{/str}}
+        </p>
+    {{/hasnooptions}}
+
+    {{#isnotmyturn}}
+        <p class="crossduel-small-note">
+            {{#str}} mp_refresh_your_turn, crossduel {{/str}}
+        </p>
+    {{/isnotmyturn}}
+
+    {{#showform}}
+        <form method="post" action="{{actionurl}}" class="crossduel-answer-form">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+
+            <label for="wordid">
+                {{#str}} chooseyourclue, crossduel {{/str}}
+            </label>
+
+            <select name="wordid" id="wordid">
+                {{#clueselectoptions}}
+                    <option value="{{wordid}}"
+                        {{#selected}}selected{{/selected}}
+                        {{#disabled}}disabled{{/disabled}}>
+                        {{label}}
+                    </option>
+                {{/clueselectoptions}}
+            </select>
+
+            <label for="useranswer">
+                {{#str}} youranswer, crossduel {{/str}}
+            </label>
+
+            <input
+                type="text"
+                name="useranswer"
+                id="useranswer"
+                value=""
+                autocomplete="off">
+
+            <input
+                type="submit"
+                name="submitmultiplayeranswer"
+                value="{{#str}} submitmultiplayeranswer, crossduel {{/str}}"
+                class="btn btn-primary">
+        </form>
+    {{/showform}}
+</div>
+{{/hasactivepanel}}
+
+{{#hascompletedpanel}}
+<div class="crossduel-answer-card">
+    <h3>{{#str}} multiplayercompleted, crossduel {{/str}}</h3>
+
+    <p>{{#str}} yourmultiplayerrole, crossduel, {{rolelabel}} {{/str}}</p>
+
+    <p class="crossduel-progress-note">
+        {{#str}} mp_no_further_answers, crossduel {{/str}}
+    </p>
+
+    <p class="crossduel-small-note">
+        {{#str}} mp_refresh_confirm, crossduel {{/str}}
+    </p>
+</div>
+{{/hascompletedpanel}}

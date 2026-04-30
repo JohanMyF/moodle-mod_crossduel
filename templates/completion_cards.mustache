@@ -1,0 +1,22 @@
+{{!
+    @template mod_crossduel/completion_cards
+
+    Completion and status cards for Cross Duel.
+}}
+
+{{#showpuzzlecomplete}}
+<div class="crossduel-complete-card">
+    <h3>{{#str}} puzzle_complete, crossduel {{/str}}</h3>
+    <p>{{#str}} puzzle_done, crossduel {{/str}}</p>
+</div>
+{{/showpuzzlecomplete}}
+
+{{#showmultiplayercomplete}}
+<div class="crossduel-complete-card">
+    <h3>{{#str}} completed_title, crossduel {{/str}}</h3>
+    <p>{{#str}} multiplayer_done, crossduel {{/str}}</p>
+    <p class="crossduel-small-note">
+        {{#str}} multiplayer_done_note, crossduel {{/str}}
+    </p>
+</div>
+{{/showmultiplayercomplete}}

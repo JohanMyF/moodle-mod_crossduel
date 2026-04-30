@@ -1,0 +1,78 @@
+{{!
+    @template mod_crossduel/puzzle_board
+
+    Cross Duel puzzle board rendering template.
+
+    Context variables:
+    * hasmatrix
+    * boardnote
+    * matrix
+}}
+
+<div class="crossduel-board-card">
+    <h3>{{#str}} yourpuzzleboard, crossduel {{/str}}</h3>
+
+    {{#hasmatrix}}
+        <p class="crossduel-note">
+            {{boardnote}}
+        </p>
+
+        <table class="crossduel-grid">
+            {{#matrix}}
+                <tr>
+                    {{#cells}}
+
+                        {{#isempty}}
+                            <td class="crossduel-empty"></td>
+                        {{/isempty}}
+
+                        {{#isfilled}}
+                            {{#isrevealed}}
+                                <td class="crossduel-revealed">
+                                    <div class="crossduel-cell-inner">
+
+                                        {{#hasnumber}}
+                                            <span class="crossduel-cell-number">
+                                                {{number}}
+                                            </span>
+                                        {{/hasnumber}}
+
+                                        <span class="crossduel-cell-letter">
+                                            {{displayletter}}
+                                        </span>
+
+                                    </div>
+                                </td>
+                            {{/isrevealed}}
+
+                            {{^isrevealed}}
+                                <td class="crossduel-hidden">
+                                    <div class="crossduel-cell-inner">
+
+                                        {{#hasnumber}}
+                                            <span class="crossduel-cell-number">
+                                                {{number}}
+                                            </span>
+                                        {{/hasnumber}}
+
+                                        <span class="crossduel-cell-hidden-blank">
+                                            &nbsp;
+                                        </span>
+
+                                    </div>
+                                </td>
+                            {{/isrevealed}}
+                        {{/isfilled}}
+
+                    {{/cells}}
+                </tr>
+            {{/matrix}}
+        </table>
+    {{/hasmatrix}}
+
+    {{^hasmatrix}}
+        <p class="crossduel-note">
+            {{#str}} nogridreconstructed, crossduel {{/str}}
+        </p>
+    {{/hasmatrix}}
+</div>

@@ -1,0 +1,60 @@
+{{!
+    @template mod_crossduel/singleplayer_answer_panel
+
+    Single-player answer entry panel.
+
+    Context variables:
+    * hassingleplayerpanel
+    * solvedcount
+    * totalcount
+    * sesskey
+    * actionurl
+    * clueselectoptions
+}}
+
+{{#hassingleplayerpanel}}
+<div class="crossduel-answer-card">
+    <h3>{{#str}} singleplayerpanel, crossduel {{/str}}</h3>
+
+    <p class="crossduel-progress-note">
+        {{progressnote}}
+    </p>
+
+    <form method="post" action="{{actionurl}}" class="crossduel-answer-form">
+
+        <input type="hidden" name="sesskey" value="{{sesskey}}">
+
+        <label for="wordid">
+            {{#str}} chooseclue, crossduel {{/str}}
+        </label>
+
+        <select name="wordid" id="wordid">
+            {{#clueselectoptions}}
+                <option value="{{wordid}}"
+                    {{#selected}}selected{{/selected}}
+                    {{#disabled}}disabled{{/disabled}}>
+                    {{label}}
+                </option>
+            {{/clueselectoptions}}
+        </select>
+
+        <label for="useranswer">
+            {{#str}} youranswer, crossduel {{/str}}
+        </label>
+
+        <input
+            type="text"
+            name="useranswer"
+            id="useranswer"
+            value=""
+            autocomplete="off">
+
+        <input
+            type="submit"
+            name="submitanswer"
+            value="{{#str}} submitanswer, crossduel {{/str}}"
+            class="btn btn-primary">
+
+    </form>
+</div>
+{{/hassingleplayerpanel}}
