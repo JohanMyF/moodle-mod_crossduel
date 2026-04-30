@@ -29,9 +29,10 @@ jobs:
           composer create-project moodlehq/moodle-plugin-ci ci ^4 --no-interaction
 
       - name: Install Moodle
-        run: |
-          ./ci/bin/moodle-plugin-ci install --moodle=${{ matrix.moodle-branch }} --plugin=${{ github.workspace }}
-
+        run: >
+          ./ci/bin/moodle-plugin-ci install
+          --moodle=${{ matrix.moodle-branch }}
+          --plugin=$GITHUB_WORKSPACE
       - name: Run code checker
         run: |
           ./ci/bin/moodle-plugin-ci phpcs
